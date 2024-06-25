@@ -287,9 +287,9 @@ def _fix_tokens(contents_text: str) -> str:
         elif token.matches(name='OP', src='('):
             _fix_extraneous_parens(tokens, i)
         elif token.src == 'format' and i > 0 and tokens[i - 1].src == '.':
-            _fix_format_literal(tokens, i - 2)
+            pass#_fix_format_literal(tokens, i - 2)
         elif token.src == 'encode' and i > 0 and tokens[i - 1].src == '.':
-            _fix_encode_to_binary(tokens, i)
+            pass#_fix_encode_to_binary(tokens, i)
         elif (
                 token.utf8_byte_offset == 0 and
                 token.line < 3 and

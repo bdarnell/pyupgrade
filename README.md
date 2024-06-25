@@ -7,6 +7,23 @@ pyupgrade
 A tool (and pre-commit hook) to automatically upgrade syntax for newer
 versions of the language.
 
+## Fork
+
+This is a fork by [bdarnell](https://github.com/bdarnell) with two changes:
+
+* The `PYUPGRADE_PLUGINS` env var can be used to select individual plugins
+  to run. See the `pyupgrade/_plugins` directory for a list.
+* Certain changes that were not implemented as plugins are disabled
+  unconditionally. One of these was subtly incorrect for Tornado
+  (it wanted to remove a seemingly-useless [use of str.encode](https://github.com/tornadoweb/tornado/blob/167d32729a4be6e0e2295373a510e2b839ad1137/tornado/netutil.py#L50) which is actually
+  important to control when certain imports occur).
+
+To use it, run something like
+
+```sh
+find . -name '*.py' | PYUPGRADE_PLUGINS="fstring" xargs pyupgrade --py38-plus
+```
+
 ## Installation
 
 ```bash

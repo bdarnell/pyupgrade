@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import ast
 import collections
+import os
 import pkgutil
+import re
 from typing import Callable
 from typing import Iterable
 from typing import List
@@ -116,7 +118,11 @@ def visit(
 def _import_plugins() -> None:
     plugins_path = _plugins.__path__
     mod_infos = pkgutil.walk_packages(plugins_path, f'{_plugins.__name__}.')
+    filter = os.environ.get("PYUPGRADE_PLUGINS", ".*")
     for _, name, _ in mod_infos:
+        basename = name.rsplit(".", 1)[-1]
+        if not re.match(filter, basename):
+            continue
         __import__(name, fromlist=['_trash'])
 
 
